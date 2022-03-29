@@ -25,7 +25,7 @@ public class MainArray {
             }
             switch (params[0]) {
                 case "list":
-                    printAll();
+                      printAll();
                     break;
                 case "size":
                     System.out.println(ARRAY_STORAGE.size());
@@ -53,7 +53,7 @@ public class MainArray {
                     System.out.println("Неверная команда.");
                     break;
             }
-        }
+                        }
     }
 
     static void printAll() {
