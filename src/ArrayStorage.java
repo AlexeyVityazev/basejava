@@ -3,13 +3,18 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int size = 0;
 
     void clear() {
+        if (size == 0) {
+            return;
+        }
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] != null) {
                 storage[i] = null;
             }
         }
+        size = 0;
     }
 
     void save(Resume r) {
@@ -19,23 +24,31 @@ public class ArrayStorage {
                 break;
             }
         }
+        size++;
     }
 
     Resume get(String uuid) {
-        Resume r = null;
-        try {
-            for (int i = 0; i < storage.length; i++) {
-                if (storage[i].uuid == uuid) {
-                    r = storage[i];
-                    break;
-                }
-            }
-        } catch (NullPointerException e) {
+        if (size == 0) {
+            return null;
         }
+        Resume r = null;
+
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].uuid == uuid) {
+                r = storage[i];
+                break;
+            } else {
+                return null;
+            }
+        }
+
         return r;
     }
 
     void delete(String uuid) {
+        if (size == 0) {
+            return;
+        }
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].uuid == uuid) {
                 storage[i] = null;
@@ -53,12 +66,10 @@ public class ArrayStorage {
 
 
         }
+        size--;
     }
 
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     Resume[] getAll() {
         int w = 0;
         for (int i = 0; i < storage.length; i++) {
@@ -78,12 +89,7 @@ public class ArrayStorage {
     }
 
     int size() {
-        int w = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                w++;
-            }
-        }
-        return w;
+        return size;
     }
+
 }
