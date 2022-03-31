@@ -9,20 +9,17 @@ public class ArrayStorage {
         if (size == 0) {
             return;
         }
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                storage[i] = null;
-            }
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
         }
         size = 0;
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
+        if (size == 0) {
+            storage[0] = r;
+        } else {
+            storage[size] = r;
         }
         size++;
     }
@@ -33,12 +30,10 @@ public class ArrayStorage {
         }
         Resume r = null;
 
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
                 r = storage[i];
                 break;
-            } else {
-                return null;
             }
         }
 
@@ -49,42 +44,37 @@ public class ArrayStorage {
         if (size == 0) {
             return;
         }
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
                 storage[i] = null;
-                break;
+
+                for (int j = 0; j < size; j++) {
+                    if (j == size - 1) {
+                        break;
+                    } else {
+                        if (storage[j] == null && storage[j + 1] != null) {
+                            storage[j] = storage[j + 1];
+                            storage[j + 1] = null;
+                        }
+                    }
+                }
+
+                size--;
             }
         }
-        for (int j = 0; j < storage.length; j++) {
-            if (j == storage.length - 1) {
-                break;
-            }
-            if (storage[j] == null && storage[j + 1] != null) {
-                storage[j] = storage[j + 1];
-                storage[j + 1] = null;
-            }
-
-
-        }
-        size--;
     }
 
 
     Resume[] getAll() {
-        int w = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                w++;
-            }
-        }
-        Resume[] resume = new Resume[w];
-        for (int j = 0; j < storage.length; j++) {
-            if (storage[j] != null) {
+        Resume[] resume;
+        if (size == 0) {
+            resume = new Resume[0];
+        } else {
+            resume = new Resume[size];
+            for (int j = 0; j < size; j++) {
                 resume[j] = storage[j];
             }
         }
-
-
         return resume;
     }
 
