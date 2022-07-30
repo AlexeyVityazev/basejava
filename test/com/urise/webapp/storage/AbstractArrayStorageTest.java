@@ -78,6 +78,8 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void update() {
+        Resume resume = new Resume("uuid1");
+        storage.update(resume);
 
     }
 
