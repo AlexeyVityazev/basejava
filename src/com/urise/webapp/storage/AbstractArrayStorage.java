@@ -14,7 +14,7 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public final Resume get(String uuid) {
-        int i = findindex(uuid);
+        int i = findIndex(uuid);
         if (i == -1) {
             System.out.println("Резюме не найдено " + uuid);
             return null;
@@ -24,32 +24,31 @@ public abstract class AbstractArrayStorage implements Storage {
 
     @Override
     public final void save(Resume resume) {
-        int index = findindex(resume.getUuid());
+        int index = findIndex(resume.getUuid());
         if (size == STORAGE_LIMIT) {
             System.out.println("Хранилище переполнено");
+        } else if (index >= 0) {
+            System.out.println("Такое резюме уже существует " + resume.getUuid());
         } else {
-            if (index >= 0) {
-                System.out.println("Такое резюме уже существует " + resume.getUuid());
-            } else {
-                insertResume(resume, index);
-                size++;
-            }
+            insertResume(resume, index);
+            size++;
         }
     }
 
     public final void update(Resume resume) {
-        int index = findindex(resume.getUuid());
+        int index = findIndex(resume.getUuid());
         if (index >= 0) {
-            insertResume(resume, index);
+            storage[index] = resume;
         } else {
             System.out.println("Такого резюме нет " + resume.getUuid());
         }
     }
 
     public final void delete(String uuid) {
-        int index = findindex(uuid);
+        int index = findIndex(uuid);
         if (index >= 0) {
             deleteResume(index);
+            storage[size - 1] = null;
             size--;
         } else {
             System.out.println("Такого резюме нет " + uuid);
@@ -65,7 +64,7 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    protected abstract int findindex(String uuid);
+    protected abstract int findIndex(String uuid);
 
     protected abstract void insertResume(Resume resume, int index);
 
