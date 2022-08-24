@@ -9,31 +9,23 @@ public class ListStorage extends AbstractStorage {
     List<Resume> list = new ArrayList<>();
 
     @Override
+    protected Object findSearchKey(String uuid) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public void clear() {
         list.clear();
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = findNotExistingSearchKey(resume.getUuid());
-        list.add(index, resume);
-    }
-
-    @Override
-    public void save(Resume resume) {
-        findExistingSearchKey(resume.getUuid());
-        list.add(resume);
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        Resume resume = list.get(findNotExistingSearchKey(uuid));
-        return resume;
-    }
-
-    @Override
-    public void delete(String uuid) {
-        list.remove(findNotExistingSearchKey(uuid));
+    public int size() {
+        return list.size();
     }
 
     @Override
@@ -46,26 +38,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public int size() {
-        return list.size();
+    Resume doGet(Object searchKey) {
+        String uuid = (String) searchKey;
+        int index = (int) findSearchKey(uuid);
+        return list.get(index);
     }
 
     @Override
-    protected int findIndex(String uuid) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
+    void doDelete(Object searchKey) {
+        String uuid = (String) searchKey;
+        int index = (int) findSearchKey(uuid);
+        list.remove(index);
     }
 
     @Override
-    protected void insertResume(Resume resume, int index) {
-
+    void doSave(Object searchKey, Resume resume) {
+        list.add(resume);
     }
 
     @Override
-    protected void deleteResume(int index) {
+    void doUpdate(Object searchKey, Resume resume) {
+        int index = (int) searchKey;
+        list.add(index, resume);
     }
 }

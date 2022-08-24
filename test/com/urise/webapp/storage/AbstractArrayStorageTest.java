@@ -113,7 +113,21 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getAll() {
         Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
-        Assert.assertArrayEquals(expected, storage.getAll());
+        Resume[] resumes = storage.getAll();
+        if (expected.length != resumes.length) {
+            Assert.fail();
+        }
+        for (int i = 0; i < expected.length; i++) {
+            boolean check = false;
+            for (int j = 0; j < resumes.length ; j++) {
+                if (expected[i].getUuid().equals(resumes[j].getUuid())) {
+                        check = true;
+                }
+            }
+            if (check != true) {
+                Assert.fail();
+            }
+        }
     }
 
     @Test
