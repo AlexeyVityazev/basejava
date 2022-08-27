@@ -6,19 +6,12 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    boolean isExist(Object searchKey) {
-
-        if ((int) searchKey >= 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    abstract boolean isExist(Object searchKey);
 
     public Object findNotExistingSearchKey(Object key) {
         String k = (String) key;
-        int searchKey = (int) findSearchKey(k);
-        if (isExist(searchKey) != true) {
+        Object searchKey = findSearchKey(k);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(k);
         } else {
             return searchKey;
@@ -27,18 +20,14 @@ public abstract class AbstractStorage implements Storage {
 
     public Object findExistingSearchKey(Object key) {
         String k = (String) key;
-        int searchKey = (int) findSearchKey(k);
-        if (isExist(searchKey) == true) {
+        Object searchKey = findSearchKey(k);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(k);
         } else {
             return searchKey;
         }
     }
 
-    @Override
-    public void clear() {
-
-    }
     @Override
     public void update(Resume resume) {
         Object searchKey = findNotExistingSearchKey(resume.getUuid());
@@ -53,14 +42,14 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        findNotExistingSearchKey(uuid);
-        return doGet(uuid);
+        Object searchkey = findNotExistingSearchKey(uuid);
+        return doGet(searchkey);
     }
 
     @Override
     public void delete(String uuid) {
-        findNotExistingSearchKey(uuid);
-        doDelete(uuid);
+        Object searchkey = findNotExistingSearchKey(uuid);
+        doDelete(searchkey);
     }
 
     @Override
@@ -72,6 +61,8 @@ public abstract class AbstractStorage implements Storage {
     public int size() {
         return 0;
     }
+
+    public abstract void clear();
 
     abstract Object findSearchKey(String uuid);
 

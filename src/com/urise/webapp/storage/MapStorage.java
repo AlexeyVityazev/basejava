@@ -6,15 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    Map<String, Resume> map = new HashMap();
+    private final Map<String, Resume> map = new HashMap<>();
+
     @Override
     protected Object findSearchKey(String uuid) {
         for (Map.Entry<String, Resume> entry : map.entrySet()) {
             if (entry.getKey().equals(uuid)) {
-                return 5;
+                return uuid;
             }
         }
-        return -1;
+        return null;
     }
 
     @Override
@@ -43,19 +44,18 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    boolean isExist(Object searchKey) {
+        return searchKey != null;
+    }
+
+    @Override
     public void clear() {
         map.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        Resume[] resumes = new Resume[map.size()];
-        int count = 0;
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            resumes[count] = entry.getValue();
-            count++;
-        }
-        return resumes;
+        return map.values().toArray(new Resume[0]);
     }
 
     @Override

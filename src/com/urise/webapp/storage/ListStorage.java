@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    List<Resume> list = new ArrayList<>();
+    private final List<Resume> list = new ArrayList<>();
 
     @Override
     protected Object findSearchKey(String uuid) {
@@ -16,6 +16,11 @@ public class ListStorage extends AbstractStorage {
             }
         }
         return -1;
+    }
+
+    @Override
+    boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
     }
 
     @Override
@@ -39,16 +44,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     Resume doGet(Object searchKey) {
-        String uuid = (String) searchKey;
-        int index = (int) findSearchKey(uuid);
-        return list.get(index);
+        return list.get((int) searchKey);
     }
 
     @Override
     void doDelete(Object searchKey) {
-        String uuid = (String) searchKey;
-        int index = (int) findSearchKey(uuid);
-        list.remove(index);
+        list.remove((int) searchKey);
     }
 
     @Override

@@ -17,16 +17,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     Resume doGet(Object searchKey) {
-        String uuid = (String) searchKey;
-        int index = findIndex(uuid);
-        return storage[index];
+        return storage[(int)searchKey];
     }
 
     @Override
     void doDelete(Object searchKey) {
-        String uuid = (String) searchKey;
-        int index = findIndex(uuid);
-        deleteResume(index);
+        deleteResume((int)searchKey);
         storage[size - 1] = null;
         size--;
     }

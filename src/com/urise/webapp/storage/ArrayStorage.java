@@ -13,7 +13,7 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        return  -1;
+        return -1;
     }
 
     @Override
@@ -25,5 +25,10 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void deleteResume(int index) {
         storage[index] = storage[size - 1];
 
+    }
+
+    @Override
+    boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
     }
 }
