@@ -24,8 +24,4 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.arraycopy(storage, index + 1, storage, index, length);
     }
 
-    @Override
-    boolean isExist(Object searchKey) {
-        return (int)searchKey >= 0;
-    }
 }

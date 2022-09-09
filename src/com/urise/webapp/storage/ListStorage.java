@@ -34,13 +34,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] resumes = new Resume[list.size()];
-        for (int i = 0; i < resumes.length; i++) {
-            resumes[i] = list.get(i);
-        }
-        return resumes;
+    public List<Resume> getAllSorted() {
+
+        return list;
     }
+
 
     @Override
     Resume doGet(Object searchKey) {

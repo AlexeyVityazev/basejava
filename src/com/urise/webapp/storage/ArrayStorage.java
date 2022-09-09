@@ -26,9 +26,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[index] = storage[size - 1];
 
     }
-
-    @Override
-    boolean isExist(Object searchKey) {
-        return (int) searchKey >= 0;
-    }
 }
+
+

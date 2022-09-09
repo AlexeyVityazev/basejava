@@ -1,13 +1,13 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.MapStorage;
+import com.urise.webapp.storage.MapUuidStorage;
 
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final MapStorage ARRAY_STORAGE = new MapStorage();
+    static final MapUuidStorage ARRAY_STORAGE = new MapUuidStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");
@@ -40,7 +40,7 @@ public class MainTestArrayStorage {
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
+        for (Resume r : ARRAY_STORAGE.getAllSorted()) {
             System.out.println(r);
         }
     }

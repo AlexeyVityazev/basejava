@@ -2,21 +2,22 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     private final Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected Object findSearchKey(String uuid) {
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            if (entry.getKey().equals(uuid)) {
-                return uuid;
-            }
+        if (map.get(uuid) != null) {
+            return uuid;
         }
         return null;
     }
+
 
     @Override
     Resume doGet(Object searchKey) {
@@ -53,10 +54,11 @@ public class MapStorage extends AbstractStorage {
         map.clear();
     }
 
-    @Override
-    public Resume[] getAll() {
-        return map.values().toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<Resume>(map.values());
+        return list;
     }
+
 
     @Override
     public int size() {
