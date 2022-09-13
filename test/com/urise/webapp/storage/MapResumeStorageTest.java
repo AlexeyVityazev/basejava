@@ -1,13 +1,9 @@
 package com.urise.webapp.storage;
 
-public class MapResumeStorageTest extends AbstractArrayStorageTest {
+public class MapResumeStorageTest extends AbstractStorageTest {
 
     public MapResumeStorageTest() {
         super(new MapResumeStorage());
     }
 
-    @Override
-    public void saveOverflow() {
-
-    }
 }

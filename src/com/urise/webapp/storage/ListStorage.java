@@ -34,11 +34,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-
+    List<Resume> doCopyAll() {
         return list;
     }
-
 
     @Override
     Resume doGet(Object searchKey) {

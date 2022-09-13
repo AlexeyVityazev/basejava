@@ -12,7 +12,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     boolean isExist(Object searchKey) {
-        return (int)searchKey >= 0;
+        return (int) searchKey >= 0;
     }
 
     @Override
@@ -22,12 +22,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     Resume doGet(Object searchKey) {
-        return storage[(int)searchKey];
+        return storage[(int) searchKey];
     }
 
     @Override
     void doDelete(Object searchKey) {
-        deleteResume((int)searchKey);
+        deleteResume((int) searchKey);
         storage[size - 1] = null;
         size--;
     }
@@ -44,19 +44,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     void doUpdate(Object searchKey, Resume resume) {
-        int index = (int)searchKey;
+        int index = (int) searchKey;
         storage[index] = resume;
     }
 
-    public List<Resume> getAllSorted() {
+
+    @Override
+    List<Resume> doCopyAll() {
         List<Resume> list = new ArrayList<>();
         Resume[] array = Arrays.copyOf(storage, size);
         Collections.addAll(list, array);
-        Collections.sort(list, (o1,o2) -> {int x; return  x = o1.getFullName().compareTo(o2.getFullName()) == 0 ? o1.getUuid().compareTo(o2.getUuid()) : o1.getFullName().compareTo(o2.getFullName());});
-
         return list;
     }
-
 
     @Override
     protected Object findSearchKey(String uuid) {
@@ -68,6 +67,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
+
     protected abstract int findIndex(String uuid);
 
     protected abstract void insertResume(Resume resume, int index);

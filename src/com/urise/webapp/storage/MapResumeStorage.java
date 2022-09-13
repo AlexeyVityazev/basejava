@@ -7,31 +7,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapResumeStorage extends AbstractStorage{
+public class MapResumeStorage extends AbstractStorage {
     private final Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected Object findSearchKey(String uuid) {
-        Resume resume = map.get(uuid);
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            if (entry.getValue().equals(resume)) {
-                return uuid;
-            }
-        }
-            return null;
+        return map.get(uuid);
     }
 
 
     @Override
     Resume doGet(Object searchKey) {
-        String uuid = (String) searchKey;
-        return map.get(uuid);
+        // String uuid = (String) searchKey;
+        return (Resume) searchKey;
     }
 
     @Override
     void doDelete(Object searchKey) {
-        String uuid = (String) searchKey;
-        map.remove(uuid);
+        Resume resume = (Resume) searchKey;
+        map.remove(resume.getUuid());
     }
 
     @Override
@@ -57,7 +51,8 @@ public class MapResumeStorage extends AbstractStorage{
         map.clear();
     }
 
-    public List<Resume> getAllSorted() {
+    @Override
+    List<Resume> doCopyAll() {
         List<Resume> list = new ArrayList<Resume>(map.values());
         return list;
     }
